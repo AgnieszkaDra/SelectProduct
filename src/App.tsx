@@ -1,7 +1,8 @@
 import React from 'react';
+import Wrapper from './components/layout/Wrapper/Wrapper';
 
 const App: React.FC = () => {
-  return <div>Hello, Webpack + React + TypeScript!</div>;
+  return <Wrapper>{'hebdh'}</Wrapper>
 };
 
 export default App;
