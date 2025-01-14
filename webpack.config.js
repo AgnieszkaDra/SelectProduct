@@ -25,7 +25,7 @@ module.exports = (env, argv) => ({
   devServer: {
     static: path.join(__dirname, 'public'),
     open: true,
-    port: 8000,
+    port: 8010,
     hot: true,
   },
   plugins: [

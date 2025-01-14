@@ -53,28 +53,27 @@ const productsSlice = createSlice({
                 products: state.products.filter((product) => product.category === action.payload),
             };
         },
-        getAveragePriceByCategory: (state, action: PayloadAction<string>) => {
-            const categoryProducts = state.products.filter((product) => product.category === action.payload);
-            const averagePrice =
-                categoryProducts.length > 0
-                    ? categoryProducts.reduce((sum, product) => sum + product.price, 0) / categoryProducts.length
-                    : 0;
-            console.log(`Average price for ${action.payload}:`, averagePrice);
-            return state;
-        },
-        sortProducts: (state, action: PayloadAction<{ key: "name" | "price"; ascending: boolean }>) => {
+        sortProducts: (
+            state,
+            action: PayloadAction<{ key: "name" | "price" | "popularity"; sort: "ASC" | "DESC" }>
+        ) => {
             state.products.sort((a, b) => {
-                if (action.payload.key === "name") {
-                    return action.payload.ascending ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
-                } else {
-                    return action.payload.ascending ? a.price - b.price : b.price - a.price;
+                const { key, sort } = action.payload;
+        
+                if (key === "name") {
+                    return sort === "ASC" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+                } else if (key === "price") {
+                    return sort === "ASC" ? a.price - b.price : b.price - a.price;
+                } else if (key === "popularity") {
+                    return sort === "ASC" ? a.sales - b.sales : b.sales - a.sales;
                 }
+                return 0; 
             });
         },
     },
 });
 
-export const { getAvailableProducts, getProductsByCategory, getAveragePriceByCategory, sortProducts } =
+export const { getAvailableProducts, getProductsByCategory, sortProducts } =
     productsSlice.actions;
 
 export default productsSlice.reducer;
